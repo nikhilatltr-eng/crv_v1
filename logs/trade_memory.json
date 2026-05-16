@@ -118,5 +118,18 @@
             "Sideways market",
             "Low volatility"
         ]
+    },
+    {
+        "timestamp": "2026-05-16 07:54:55.539333",
+        "signal": "LONG",
+        "confidence": 77.66,
+        "entry": 0.2435,
+        "stop_loss": 0.243063,
+        "take_profit": 0.244375,
+        "market_regime": "SIDEWAYS",
+        "reasons": [
+            "Bullish CVD",
+            "Sideways market"
+        ]
     }
 ]

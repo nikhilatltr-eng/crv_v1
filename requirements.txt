@@ -7,8 +7,6 @@ ta
 scikit-learn
 xgboost
 lightgbm
-tensorflow-macos
-tensorflow-metal
 torch
 websocket-client
 websockets
@@ -20,5 +18,5 @@ joblib
 requests
 scipy
 matplotlib
-uvloop
 orjson
+python-telegram-bot
