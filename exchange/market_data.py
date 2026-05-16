@@ -1,15 +1,15 @@
+import ccxt
 import pandas as pd
-
-from binance.client import Client
-
 import ta
 
 
-client = Client()
+exchange = ccxt.binance({
+    "enableRateLimit": True
+})
 
 
 def get_ohlcv(
-    symbol="CRVUSDT",
+    symbol="CRV/USDT",
     interval="1m",
     limit=200,
     timeframe=None
@@ -19,33 +19,23 @@ def get_ohlcv(
 
         interval = timeframe
 
-    klines = client.get_klines(
-
-        symbol=symbol,
-
-        interval=interval,
-
+    ohlcv = exchange.fetch_ohlcv(
+        symbol,
+        timeframe=interval,
         limit=limit
     )
 
     df = pd.DataFrame(
 
-        klines,
+        ohlcv,
 
         columns=[
-
             "time",
             "open",
             "high",
             "low",
             "close",
-            "volume",
-            "close_time",
-            "qav",
-            "num_trades",
-            "taker_base_vol",
-            "taker_quote_vol",
-            "ignore"
+            "volume"
         ]
     )
 
@@ -85,7 +75,6 @@ def get_ohlcv(
     )
 
     df["atr"] = ta.volatility.average_true_range(
-
         df["high"],
         df["low"],
         df["close"]

@@ -1,4 +1,4 @@
-from binance.client import Client
+import ccxt
 
 from dotenv import load_dotenv
 
@@ -17,45 +17,57 @@ API_SECRET = os.getenv(
 )
 
 
-client = Client(
-    API_KEY,
-    API_SECRET
-)
+exchange = ccxt.binance({
 
-client.FUTURES_URL = (
-    "https://testnet.binancefuture.com/fapi"
-)
+    "apiKey": API_KEY,
+
+    "secret": API_SECRET,
+
+    "enableRateLimit": True,
+
+    "options": {
+        "defaultType": "future"
+    }
+})
 
 
 def place_trade(signal_data):
 
     signal = signal_data["signal"]
 
-    entry = signal_data["entry"]
-
     quantity = 20
 
     side = (
-        "BUY"
+        "buy"
         if signal == "LONG"
-        else "SELL"
+        else "sell"
     )
 
-    order = client.futures_create_order(
+    try:
 
-        symbol="CRVUSDT",
+        order = exchange.create_market_order(
 
-        side=side,
+            symbol="CRV/USDT",
 
-        type="MARKET",
+            side=side,
 
-        quantity=quantity
-    )
+            amount=quantity
+        )
 
-    print()
+        print()
 
-    print("TRADE EXECUTED")
+        print("TRADE EXECUTED")
 
-    print(order)
+        print(order)
 
-    return order
+        return order
+
+    except Exception as e:
+
+        print()
+
+        print("TRADE ERROR")
+
+        print(e)
+
+        return None
